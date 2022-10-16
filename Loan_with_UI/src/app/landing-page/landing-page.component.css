@@ -1,0 +1,8 @@
+.bg-cover {
+    background-size: cover !important;
+    background-image: radial-gradient(circle, #e6e6e6 0%, #3f3d3d 100%);
+}
+.container{
+    margin-top:16%;
+    min-height: 400px; 
+}

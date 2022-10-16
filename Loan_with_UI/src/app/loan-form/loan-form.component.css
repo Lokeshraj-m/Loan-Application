@@ -1,0 +1,16 @@
+.myclass {
+    display: flex;
+    flex-direction: column;
+  }
+  
+.myclass > * {
+    width: 100%;
+}
+.container{
+  margin-top: 50px;
+  border: 2px solid black;
+  width:70%
+}
+button{
+  margin: 10px;
+}

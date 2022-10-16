@@ -1,0 +1,88 @@
+<div>
+    <app-header></app-header>
+</div>
+<div class="jumbotron bg-cover">
+    <div class ="container">
+        <div class="row">
+            <div class="col">
+                <div >
+                    <form #f="ngForm" (ngSubmit)="onSubmit(f)"><br>
+                        <h3 style="text-align: center; 
+                        background-color: rgb(22, 21, 21);
+                        color: white;" >New Loan</h3><br>
+                        <mat-form-field appearance="fill" class="myclass" [color]="'primary'">
+                            <mat-label>Name</mat-label>
+                            <input matInput type="text" placeholder="Enter Your Name..."
+                              #name="ngModel" ngModel 
+                              name="name"        
+                              required [pattern]="Name_Pattern">
+                            <mat-hint>*Enter only letters and space</mat-hint>
+                            <mat-error *ngIf="name.touched && !name.valid"> ** Please Enter the Valid Name</mat-error>
+                          </mat-form-field>
+                      
+                        <mat-form-field appearance="fill" class="myclass" [color]="'primary'">
+                          <mat-label>Loan Amount</mat-label>
+                          <input matInput type="number" placeholder="Enter the Loan Amount..."
+                            #loanAmount="ngModel" ngModel 
+                            name="loanAmount"        
+                            required min="1000">
+                            <mat-hint>*Enter the Amount 1000 or above</mat-hint>
+                            <mat-error *ngIf="loanAmount.touched && !loanAmount.valid"> ** Please Enter the Valid Loan Amount</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="myclass" appearance="fill" [color]="'primary'">
+                            <mat-label>Choose Loan Start Date</mat-label>
+                            <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" #loanStartDate="ngModel"
+                            ngModel name="loanStartDate">
+                            <mat-hint>*MM/DD/YYYY</mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                              
+                          </mat-form-field>   
+                
+                        <mat-form-field class="myclass" appearance="fill" [color]="'primary'">
+                            <mat-label>Select Maturity Months</mat-label>
+                            <mat-select required #maturityMonths="ngModel" name="maturityMonths" ngModel>
+                            <mat-option>---</mat-option>
+                            <mat-option *ngFor="let item of MaturityMonths" [value]="item">
+                            {{item}} Months
+                            </mat-option>
+                        </mat-select>
+                        <mat-hint>*how many months is your loan period </mat-hint>
+                        </mat-form-field>
+                        <mat-form-field class="myclass" appearance="fill" [color]="'primary'">
+                            <mat-label>Select Payment Frequency</mat-label>
+                            <mat-select required #paymentFrequency="ngModel" name="paymentFrequency" ngModel>
+                                <mat-option>---</mat-option>
+                                <mat-option *ngFor="let item of PaymentFrequency" [value]="item">
+                                {{item}} Months
+                                </mat-option>
+                        </mat-select>
+                        <mat-hint>*how many months once you are paying interest</mat-hint>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" class="myclass" [color]="'primary'">
+                            <mat-label>Interest Rate</mat-label>
+                            <input matInput type="number" placeholder="Enter the Interest Rate..."
+                              #interestRate="ngModel" ngModel 
+                              name="interestRate"        
+                              required min="0" max="100">
+                              <mat-error *ngIf="interestRate.touched && !interestRate.valid"> ** Please Enter the Valid Interest Rate</mat-error>
+                            <mat-hint>*Interest in percentage</mat-hint>
+                            </mat-form-field>
+                        <mat-form-field class="myclass" appearance="fill" [color]="'primary'">
+                            <mat-label>Select Payment Term</mat-label>
+                            <mat-select required #paymentTerm ="ngModel" name="paymentTerm" ngModel>
+                                <mat-option>---</mat-option>
+                                <mat-option *ngFor="let item of PaymentTerm" [value]="item">
+                                {{item}}
+                                </mat-option>
+                        </mat-select>
+                        </mat-form-field>
+                        <button mat-raised-button color="primary"  [disabled]="!f.valid">Create</button>
+                        <button mat-raised-button color="accent" (click)=onBack()>Back</button>
+                    </form><br>
+                </div>
+            </div>
+        </div>
+    </div>                     
+</div>
+                                     

@@ -1,0 +1,42 @@
+<app-header></app-header>
+<div class="jumbotron bg-cover">
+    <div class="container text-center">
+        <br><h3 class="display-5 font-weight-bold">Loan Details</h3><hr>
+        <div class="row">
+            <div class="col">
+                <div>
+                    <table class="table table-bordered table-hover">
+                      <thead>
+                        <th>Sl.No.</th>
+                        <th>Name</th>
+                        <th>Trade Date</th>
+                        <th>Loan Amount</th>
+                        <th>Loan Start Date</th>
+                        <th>Maturity Date</th>
+                        <th>Interest Rate</th>
+                        <th>Payment Frequency</th>
+                        <th>Payment Term</th>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of LoanLists | paginate:{ itemsPerPage:10,currentPage:p} ,
+                        index as i "[routerLink]="['/LoanSchedule',item.customerId]">
+                          <td>{{i+1}}</td>
+                          <td>{{item.customerName|titlecase}}</td>
+                          <td>{{item.tradeDate|date:"yyyy-MM-dd"}}</td>
+                          <td>{{item.loanAmount| currency : "₹" }}</td>
+                          <td>{{item.loanStartDate}}</td>
+                          <td>{{item.maturityDate}}</td>
+                          <td>{{item.interestRate}}%</td>
+                          <td>{{item.paymentFrequency}} Months</td>
+                          <td>{{item.paymentTerm}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div><hr>
+                  <pagination-controls (pageChange)="p = $event" 
+                      style="float:right ;"></pagination-controls><br><br>
+                  <button style="text-align: center;" (click)="onClick()" class="btn btn-secondary">Back</button><br><br>
+            </div>
+        </div>
+    </div>
+</div>

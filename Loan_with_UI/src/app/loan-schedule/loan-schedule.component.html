@@ -1,0 +1,43 @@
+<app-header></app-header>
+<div class="jumbotron bg-cover">
+    <div class="container text-center">
+        <br><h3 class="display-5 font-weight-bold">{{name}} Payment Schedule</h3><hr>
+        <div class="row">
+            <div class="col">
+                <div>
+                    <table class="table table-bordered table-hover">
+                      <thead>
+                        <th>Sl.No.</th>
+                        <th>Payment Id</th>
+                        <th>Payment Date</th>
+                        <th>Principle Amount</th>
+                        <th>Projected Interest</th>
+                        <th>Payment Status</th>
+                        <th>Payment</th>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of ScheduleList | paginate:{ itemsPerPage:10,currentPage:p} ,
+                        index as i ">
+                          <td>{{i+1}}</td>
+                          <td>{{item.paymentId}}</td>
+                          <td>{{item.paymentDate}}</td>
+                          <td>{{item.principal| currency : "₹" }}</td>
+                          <td>{{item.projectedInterest| currency : "₹" }}</td>
+                          <td style="font-weight: bolder;">{{item.paymentStatus}}</td>
+                          <td><button class="btn"  (click)="onPay(item.paymentId)"
+                            [disabled]='!(item.paymentStatus === "AWAITINGPAYMENT")'>
+                          <span [hidden]='!(item.paymentStatus === "AWAITINGPAYMENT")' class="btn btn-primary">Pay {{item.paymentAmount| currency : "₹" }}</span>
+                          <span [hidden]='!(item.paymentStatus === "PAID")' class=" btn btn-success">Paid</span>
+                          <span [hidden]='!(item.paymentStatus === "PROJECTED")' class="btn btn-info">Projected</span>
+                          </button></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div><hr>
+                  <pagination-controls (pageChange)="p = $event" 
+                      style="float:right ;"></pagination-controls><br><br>
+                  <button style="text-align: center;" (click)="onClick()" class="btn btn-secondary">Back</button><br><br>
+            </div>
+        </div>
+    </div>
+</div>
