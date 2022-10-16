@@ -16,6 +16,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.Range;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -36,6 +37,7 @@ public class LoanDetails {
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date maturityDate;
 	private int paymentFrequency;
+	@Range(min = (long) 0.0, max = (long) 100.0,message="Invalid Interest Rate... Interest Rate Should be Between 0 to 100... ")
 	private double interestRate;
 	private String paymentTerm;
 	@OneToMany(cascade = CascadeType.ALL)
