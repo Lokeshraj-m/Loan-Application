@@ -1,0 +1,97 @@
+{
+	"info": {
+		"_postman_id": "c251ccbb-48d5-4658-9f0c-45638b72d6b7",
+		"name": "Loan",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23027312"
+	},
+	"item": [
+		{
+			"name": "createLoan",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"customerName\":\"Balakrishnan\",\r\n    \"loanAmount\":1000,\r\n    \"loanStartDate\":\"2022-10-25\",\r\n    \"maturityDate\":\"2024-10-25\",\r\n    \"paymentFrequency\":\"3\",\r\n    \"interestRate\":1,\r\n    \"paymentTerm\":\"Even Principal\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/loan/create",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"loan",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Loan List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/loan/lists",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"loan",
+						"lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Loan List By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/loan/list/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"loan",
+						"list",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change Payment Status",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/loan/PaymentStatus/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"loan",
+						"PaymentStatus",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
