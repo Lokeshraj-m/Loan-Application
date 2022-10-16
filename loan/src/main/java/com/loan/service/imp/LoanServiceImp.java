@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import com.loan.dao.LoanDetailsRepository;
 import com.loan.dao.PaymentScheduleRepository;
 import com.loan.entity.LoanDetails;
 import com.loan.entity.PaymentSchedule;
+import com.loan.exceptions.ResourceNotFoundException;
 import com.loan.service.LoanService;
 import com.loan.utill.PaymentStatus;
 
@@ -88,7 +90,7 @@ public class LoanServiceImp implements LoanService {
 		Date date = Calendar.getInstance().getTime();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String currentDate = dateFormat.format(date);
-		LoanDetails loanList = loanDetailsRepo.findById(customerId).get();
+		LoanDetails loanList = loanDetailsRepo.findById(customerId).orElseThrow(()-> new ResourceNotFoundException("Customer Id Not Found with Id : "+customerId));
 		List<PaymentSchedule> paymentScheduleList = loanList.getPaymentSchedule();
 		for (PaymentSchedule paymentSchedule : paymentScheduleList) {
 			String paymentScheduleDate = dateFormat.format(paymentSchedule.getPaymentDate());
@@ -103,7 +105,7 @@ public class LoanServiceImp implements LoanService {
 	// To update the Payment Status(PAID)..
 	@Override
 	public String paymentStatus(int paymentId) {
-		PaymentSchedule scheduleList = paymentScheduleRepo.findById(paymentId).get();
+		PaymentSchedule scheduleList = paymentScheduleRepo.findById(paymentId).orElseThrow(()-> new ResourceNotFoundException("Payment Id Not Found with Id : "+paymentId));
 		scheduleList.setPaymentStatus(PaymentStatus.PAID.toString());
 		paymentScheduleRepo.save(scheduleList);
 		return "Payment Paid Successfully...";
