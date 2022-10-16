@@ -1,5 +1,6 @@
 package com.loan.exceptions;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +30,7 @@ public class GlobalExceptionHandler {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
     public @ResponseBody ErrorResponse handleException(ResourceNotFoundException ex)
     {
-        return new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
+        return new ErrorResponse(LocalDate.now(),HttpStatus.NOT_FOUND.value(),ex.getMessage());
     }
 
 }
