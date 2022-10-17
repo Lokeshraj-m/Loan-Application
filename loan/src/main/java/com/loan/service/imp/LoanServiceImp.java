@@ -13,6 +13,7 @@ import com.loan.dao.LoanDetailsRepository;
 import com.loan.dao.PaymentScheduleRepository;
 import com.loan.entity.LoanDetails;
 import com.loan.entity.PaymentSchedule;
+import com.loan.exceptions.ResourceNotFoundException;
 import com.loan.service.LoanService;
 import com.loan.utill.PaymentStatus;
 
@@ -76,34 +77,34 @@ public class LoanServiceImp implements LoanService {
 	// To Get the Created Loan list and Loan Schedule..
 	@Override
 	public List<LoanDetails> loanList() {
+		Date date = Calendar.getInstance().getTime();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String currentDate = dateFormat.format(date);
 		List<LoanDetails> loanList = this.loanDetailsRepo.findAll();
-		return loanList;
+		for(LoanDetails loanDetails : loanList) {
+			List<PaymentSchedule> paymentScheduleList = loanDetails.getPaymentSchedule();
+			for (PaymentSchedule paymentSchedule : paymentScheduleList) {
+				String paymentScheduleDate = dateFormat.format(paymentSchedule.getPaymentDate());
+				if (paymentScheduleDate.equals(currentDate) && paymentSchedule.getPaymentStatus().equals("PROJECTED")) {
+					paymentSchedule.setPaymentStatus(PaymentStatus.AWAITINGPAYMENT.toString());
+					loanDetailsRepo.save(loanDetails);
+				}
+			}
+		}
+		return loanDetailsRepo.findAll();
 	}
 
 	// To get the Loan List and Loan Schedule by customer Id also Converting the
 	// Payment Status to AwaitingPayment by comparing the current date..
 	@Override
 	public LoanDetails loanListById(int customerId) {
-		// current Date
-		Date date = Calendar.getInstance().getTime();
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String currentDate = dateFormat.format(date);
-		LoanDetails loanList = loanDetailsRepo.findById(customerId).get();
-		List<PaymentSchedule> paymentScheduleList = loanList.getPaymentSchedule();
-		for (PaymentSchedule paymentSchedule : paymentScheduleList) {
-			String paymentScheduleDate = dateFormat.format(paymentSchedule.getPaymentDate());
-			if (paymentScheduleDate.equals(currentDate) && paymentSchedule.getPaymentStatus().equals("PROJECTED")) {
-				paymentSchedule.setPaymentStatus(PaymentStatus.AWAITINGPAYMENT.toString());
-			}
-		}
-		loanDetailsRepo.save(loanList);
 		return loanDetailsRepo.findById(customerId).get();
 	}
 	
 	// To update the Payment Status(PAID)..
 	@Override
 	public String paymentStatus(int paymentId) {
-		PaymentSchedule scheduleList = paymentScheduleRepo.findById(paymentId).get();
+		PaymentSchedule scheduleList = paymentScheduleRepo.findById(paymentId).orElseThrow(()-> new ResourceNotFoundException("Payment Id Not Found with Id : "+paymentId));
 		scheduleList.setPaymentStatus(PaymentStatus.PAID.toString());
 		paymentScheduleRepo.save(scheduleList);
 		return "Payment Paid Successfully...";
