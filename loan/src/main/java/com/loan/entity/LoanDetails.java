@@ -13,11 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.validator.constraints.Range;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -26,10 +24,8 @@ public class LoanDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int customerId;
-	@Pattern(regexp = "^[a-zA-Z]{4,}(?: [a-zA-Z]+){0,}$", message = "Invalid Customer Name.. "
-			+ "Enter only Letters and Spaces..."
-			+ "Example: Lokesh Raj M")
-	@NotEmpty(message="Must not be Empty")
+	@Pattern(regexp = "^[a-zA-Z]{4,}(?: [a-zA-Z]+){0,}$", message = "Invalid Customer Name.. Enter only Letters and Spaces...")
+	@NotEmpty
 	private String customerName;
 	@Min(value = 1000, message = "Inavlid Amount...Enter above 1000...")
 	private long loanAmount;
@@ -40,8 +36,6 @@ public class LoanDetails {
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date maturityDate;
 	private int paymentFrequency;
-	@Range(min = (long) 0.0, max = (long) 100.0,message="Invalid Interest Rate... Interest Rate Should be Between 0 to 100... ")
-	@NotNull(message="Must not be null")
 	private double interestRate;
 	private String paymentTerm;
 	@OneToMany(cascade = CascadeType.ALL)
