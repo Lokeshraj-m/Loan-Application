@@ -1,14 +1,15 @@
 <app-header></app-header>
 <div class="jumbotron bg-cover">
     <div class="container text-center">
-        <br><h3 class="display-5 font-weight-bold">Loan Details</h3><hr>
+        <br><h3 class="display-5 font-weight-bold">Loan Details</h3>
+        <h5>(Click on Particular Loan To view Loan Schedule)</h5><hr>
         <div class="row">
             <div class="col">
                 <div>
                     <table class="table table-bordered table-hover">
                       <thead>
                         <th>Sl.No.</th>
-                        <th>Name</th>
+                        <th style="font-weight: bolder;">Name</th>
                         <th>Trade Date</th>
                         <th>Loan Amount</th>
                         <th>Loan Start Date</th>
@@ -19,7 +20,7 @@
                       </thead>
                       <tbody>
                         <tr *ngFor="let item of LoanLists | paginate:{ itemsPerPage:10,currentPage:p} ,
-                        index as i "[routerLink]="['/LoanSchedule',item.customerId]">
+                        index as i "[routerLink]="['/LoanSchedule',item.customerId]" style="cursor: pointer;">
                           <td>{{i+1}}</td>
                           <td>{{item.customerName|titlecase}}</td>
                           <td>{{item.tradeDate|date:"yyyy-MM-dd"}}</td>

@@ -14,6 +14,7 @@ export class LoanScheduleComponent implements OnInit {
   p:number=1;
   ScheduleList:any[]=[];
   name:String="";
+  interestRate:number=0;
 
   constructor(private router:Router,
     private service:HttpService,
@@ -34,8 +35,10 @@ export class LoanScheduleComponent implements OnInit {
     .subscribe((param:any)=>{
       this.service.getAllScheduleById(param.get("id"))
       .subscribe((response:any)=>{
-        this.ScheduleList=response.paymentSchedule;
         this.name=response.customerName;
+        this.interestRate=response.interestRate;
+        this.ScheduleList=response.paymentSchedule;
+        
       })
     })
   }

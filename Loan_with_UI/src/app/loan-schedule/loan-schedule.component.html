@@ -2,6 +2,7 @@
 <div class="jumbotron bg-cover">
     <div class="container text-center">
         <br><h3 class="display-5 font-weight-bold">{{name}} Payment Schedule</h3><hr>
+        <h5>Interest Rate = {{interestRate}}%</h5>
         <div class="row">
             <div class="col">
                 <div>
@@ -13,6 +14,7 @@
                         <th>Principle Amount</th>
                         <th>Projected Interest</th>
                         <th>Payment Status</th>
+                        <th>Payment Amount</th>
                         <th>Payment</th>
                       </thead>
                       <tbody>
@@ -24,9 +26,10 @@
                           <td>{{item.principal| currency : "₹" }}</td>
                           <td>{{item.projectedInterest| currency : "₹" }}</td>
                           <td style="font-weight: bolder;">{{item.paymentStatus}}</td>
+                          <td>{{item.paymentAmount| currency : "₹" }}</td>
                           <td><button class="btn"  (click)="onPay(item.paymentId)"
                             [disabled]='!(item.paymentStatus === "AWAITINGPAYMENT")'>
-                          <span [hidden]='!(item.paymentStatus === "AWAITINGPAYMENT")' class="btn btn-primary">Pay {{item.paymentAmount| currency : "₹" }}</span>
+                          <span [hidden]='!(item.paymentStatus === "AWAITINGPAYMENT")' class="btn btn-primary">Pay{{item.paymentAmount| currency : "₹" }}</span>
                           <span [hidden]='!(item.paymentStatus === "PAID")' class=" btn btn-success">Paid</span>
                           <span [hidden]='!(item.paymentStatus === "PROJECTED")' class="btn btn-info">Projected</span>
                           </button></td>
