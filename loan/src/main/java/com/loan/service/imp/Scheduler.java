@@ -21,7 +21,7 @@ public class Scheduler {
 	@Autowired
 	LoanDetailsRepository loanDetailsRepo;
 	
-	@Scheduled(cron = "* 0/1 * * * ?")
+	@Scheduled(cron = "0/1 * * * * *")
 	public void changeAwaitingStatus() {
 		Date date = Calendar.getInstance().getTime();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
