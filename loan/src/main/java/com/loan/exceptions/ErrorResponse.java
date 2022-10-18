@@ -1,9 +1,10 @@
 package com.loan.exceptions;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class ErrorResponse {
-	private LocalDate time;
+	private LocalDateTime time;
 	private int statusCode;
     private String message;
 
@@ -12,18 +13,18 @@ public class ErrorResponse {
 		super();
 	}
     
-	public ErrorResponse(LocalDate time, int statusCode, String message) {
+	public ErrorResponse(LocalDateTime time, int statusCode, String message) {
 		super();
 		this.time = time;
 		this.statusCode = statusCode;
 		this.message = message;
 	}
 
-	public LocalDate getTime() {
+	public LocalDateTime getTime() {
 		return time;
 	}
 
-	public void setTime(LocalDate time) {
+	public void setTime(LocalDateTime time) {
 		this.time = time;
 	}
 

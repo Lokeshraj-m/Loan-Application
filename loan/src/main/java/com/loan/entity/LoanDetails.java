@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,7 +43,7 @@ public class LoanDetails {
 	@Range(min = (long) 0.0, max = (long) 100.0,message="Invalid Interest Rate... Interest Rate Should be Between 0 to 100... ")
 	private double interestRate;
 	private String paymentTerm;
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinColumn(name = "paymentIdFk",referencedColumnName = "customerId")
 	private List<PaymentSchedule> paymentSchedule = new ArrayList<>();
 	

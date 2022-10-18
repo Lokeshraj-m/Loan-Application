@@ -29,15 +29,46 @@ public class LoanServiceImp implements LoanService {
 	// To Create a New Loan
 	@Override
 	public String createLoan(LoanDetails loanDetails) {
+		String message = this.generatePaymentScheddule(loanDetails);
+		return message;
+	}
+
+	// To Get the Created Loan list and Loan Schedule..
+	@Override
+	public List<LoanDetails> loanList() {
+		return loanDetailsRepo.findAll();
+	}
+
+	// To get the Loan List and Loan Schedule by customer Id
+
+	@Override
+	public LoanDetails loanListById(int customerId) {
+		LoanDetails loanList = loanDetailsRepo.findById(customerId)
+				.orElseThrow(() -> new ResourceNotFoundException("Customer Id Not Found with Id : " + customerId));
+		return loanList;
+	}
+
+	// To update the Payment Status(PAID)..
+	@Override
+	public String paymentStatus(int paymentId) {
+		PaymentSchedule scheduleList = paymentScheduleRepo.findById(paymentId)
+				.orElseThrow(() -> new ResourceNotFoundException("Payment Id Not Found with Id : " + paymentId));
+		scheduleList.setPaymentStatus(PaymentStatus.PAID.toString());
+		paymentScheduleRepo.save(scheduleList);
+		return "Payment Paid Successfully...";
+	}
+	
+	
+	private String generatePaymentScheddule(LoanDetails loanDetails) {
 
 		PaymentSchedule schedule = null;
 		// To get current Date
 		Calendar loanStartDate = Calendar.getInstance();
 		loanStartDate.setTime(loanDetails.getLoanStartDate());
-		
+
 		Calendar maturityDate = Calendar.getInstance();
 		maturityDate.setTime(loanDetails.getMaturityDate());
-		
+
 		int loanYears = maturityDate.get(Calendar.YEAR) - loanStartDate.get(Calendar.YEAR);
 
 		int paymentFrequency = loanDetails.getPaymentFrequency();
@@ -73,41 +104,4 @@ public class LoanServiceImp implements LoanService {
 		loanDetailsRepo.save(loanDetails);
 		return "Loan is Successfully Created...";
 	}
-
-	// To Get the Created Loan list and Loan Schedule..
-	@Override
-	public List<LoanDetails> loanList() {
-		Date date = Calendar.getInstance().getTime();
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String currentDate = dateFormat.format(date);
-		List<LoanDetails> loanList = this.loanDetailsRepo.findAll();
-		for(LoanDetails loanDetails : loanList) {
-			List<PaymentSchedule> paymentScheduleList = loanDetails.getPaymentSchedule();
-			for (PaymentSchedule paymentSchedule : paymentScheduleList) {
-				String paymentScheduleDate = dateFormat.format(paymentSchedule.getPaymentDate());
-				if (paymentScheduleDate.equals(currentDate) && paymentSchedule.getPaymentStatus().equals("PROJECTED")) {
-					paymentSchedule.setPaymentStatus(PaymentStatus.AWAITINGPAYMENT.toString());
-					loanDetailsRepo.save(loanDetails);
-				}
-			}
-		}
-		return loanDetailsRepo.findAll();
-	}
-
-	// To get the Loan List and Loan Schedule by customer Id also Converting the
-	// Payment Status to AwaitingPayment by comparing the current date..
-	@Override
-	public LoanDetails loanListById(int customerId) {
-		return loanDetailsRepo.findById(customerId).get();
-	}
-	
-	// To update the Payment Status(PAID)..
-	@Override
-	public String paymentStatus(int paymentId) {
-		PaymentSchedule scheduleList = paymentScheduleRepo.findById(paymentId).orElseThrow(()-> new ResourceNotFoundException("Payment Id Not Found with Id : "+paymentId));
-		scheduleList.setPaymentStatus(PaymentStatus.PAID.toString());
-		paymentScheduleRepo.save(scheduleList);
-		return "Payment Paid Successfully...";
-	}
-
 }
