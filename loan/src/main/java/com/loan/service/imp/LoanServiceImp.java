@@ -97,8 +97,8 @@ public class LoanServiceImp implements LoanService {
 				paymentSchedule.setPaymentStatus(PaymentStatus.AWAITINGPAYMENT.toString());
 			}
 		}
-		loanDetailsRepo.save(loanList);
-		return loanDetailsRepo.findById(customerId).get();
+		
+		return loanDetailsRepo.save(loanList);
 	}
 	
 	// To update the Payment Status(PAID)..
